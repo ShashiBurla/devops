@@ -1,5 +1,4 @@
 name: GitHub Actions Demo
-run-name:  testing out GitHub Actions 🚀
 on: [push]
 jobs:
   Explore-GitHub-Actions:
