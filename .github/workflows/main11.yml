@@ -1,14 +1,19 @@
-name: GitHub Actions Demo
-run-name:  testing out GitHub Actions 🚀
-on: [push]
+name: run-script
+on: 
+  workflow_dispatch
+
 jobs:
-  Explore-GitHub-Actions:
+  run:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-        
-      - name: Executing the Script
-        run:  sh AddColab.sh
-        
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - uses: actions/checkout@v1
+      - name: script
+
+      - name: Execute shell  
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
+        run: |
+            chmod +x AddColab.sh
+            ./AddColab.sh
+        shell: bash
+   
