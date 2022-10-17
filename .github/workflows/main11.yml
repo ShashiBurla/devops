@@ -10,8 +10,8 @@ jobs:
         uses: actions/checkout@v1
 
       - name: Execute shell  
-        env:
-          GH_TOKEN: ${{ secrets.TOKEN }}
+          with:
+            repo-token: ${{ secrets.TOKEN }}
         run: |
             chmod +x AddColab.sh
             ./AddColab.sh
