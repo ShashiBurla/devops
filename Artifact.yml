@@ -1,0 +1,27 @@
+name: Download Latest Artifact
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  download-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install JFrog CLI
+        run: |
+          curl -fL https://getcli.jfrog.io | sh
+          sudo mv jfrog /usr/local/bin/
+
+      - name: Get latest artifact version
+        id: get-latest-version
+        run: |
+          export ARTIFACT_VERSION=$(jfrog rt s "your-repository/path/to/artifact" --sort-by=created --limit=1 --json | jq -r '.[0].path' | awk -F'/' '{print $(NF-1)}')
+
+      - name: Download latest artifact
+        run: |
+          curl -u ${{ secrets.ARTIFACTORY_USERNAME }}:${{ secrets.ARTIFACTORY_PASSWORD }} -O "https://artifactory.platform.manulife.io/your-repository/path/to/artifact/artifact-name-${{ env.ARTIFACT_VERSION }}.zip"
